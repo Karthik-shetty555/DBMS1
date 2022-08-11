@@ -1,0 +1,195 @@
+create table team
+(Team_id varchar(10) primary key,
+Team_name varchar(15) not null,
+City varchar(25) not null,
+Coach varchar(25) not null,
+Captain varchar(25));
+
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| Team_id   | varchar(10) | NO   | PRI | NULL    |       |
+| Team_name | varchar(15) | NO   |     | NULL    |       |
+| City      | varchar(25) | NO   |     | NULL    |       |
+| Coach     | varchar(25) | NO   |     | NULL    |       |
+| Captain   | varchar(25) | YES  | MUL | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+
+create table player
+(Player_id varchar(10) primary key,
+Name varchar(25) not null,
+P_number int(10) not null,
+Age int(3) not null,
+Team_id varchar(10),foreign key (Team_id) references team(Team_id));
+
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| Player_id | varchar(10) | NO   | PRI | NULL    |       |
+| Name      | varchar(25) | NO   |     | NULL    |       |
+| P_number  | int         | NO   |     | NULL    |       |
+| Age       | int         | NO   |     | NULL    |       |
+| Team_id   | varchar(10) | YES  | MUL | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+
+create table stadium
+(Stadium_id varchar(10) primary key,
+Stadium_name varchar(25) not null,
+City char(25) not null,
+Area_name varchar(25) not null,
+Pincode int(6) not null);
+
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| Stadium_id   | varchar(10) | NO   | PRI | NULL    |       |
+| Stadium_name | varchar(25) | NO   |     | NULL    |       |
+| City         | char(25)    | NO   |     | NULL    |       |
+| Area_name    | varchar(25) | NO   |     | NULL    |       |
+| Pincode      | int         | NO   |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+ 
+create table matchh
+(Match_id varchar(10) primary key,
+Team_id1 varchar(10),foreign key(Team_id1) references team(Team_id),
+Team_id2 varchar(10),foreign key(Team_id2) references team(Team_id),
+Sdate date,
+Stime time not null,
+Stadium_id varchar(10),foreign key(Stadium_id) references stadium(Stadium_id),
+Winnerteam_id varchar(10),foreign key(Winnerteam_id) references team(Team_id));
+
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| Match_id      | varchar(10) | NO   | PRI | NULL    |       |
+| Team_id1      | varchar(10) | YES  | MUL | NULL    |       |
+| Team_id2      | varchar(10) | YES  | MUL | NULL    |       |
+| Sdate         | date        | YES  |     | NULL    |       |
+| Stime         | time        | NO   |     | NULL    |       |
+| Stadium_id    | varchar(10) | YES  | MUL | NULL    |       |
+| Winnerteam_id | varchar(10) | YES  | MUL | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+
+create table mofmatch
+(Player_id varchar(10),
+Match_id varchar(10),
+primary key(Player_id,Match_id));
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| Player_id | varchar(10) | NO   | PRI | NULL    |       |
+| Match_id  | varchar(10) | NO   | PRI | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+
+alter table mofmatch add foreign key(Player_id) references player(Player_id);
+alter table mofmatch add foreign key(Match_id) references match(Match_id);
+alter table team add foreign key(Captain)references player(Player_id);
+alter table player add foreign key(Team_id)references team(Team_id);
+
+
+
+
+
+insert into team(Team_id,Team_name,City,Coach) values ('101','RCB','Bangalore','RaviShastri');
+insert into team(Team_id,Team_name,City,Coach) values ('102','MI','Mumbai','Sachin');
+insert into team(Team_id,Team_name,City,Coach) values ('103','CSK','Chennai','Mohan');
+insert into team(Team_id,Team_name,City,Coach) values ('104','RR','Rajasthan','Gambhir');
+insert into team(Team_id,Team_name,City,Coach) values ('105','GL','Gujarat','Sunil');
+
+
+
+insert into player(Player_id,Name,P_number,Age,Team_id) values ('A101','Kohli',987456321,32,'101');
+insert into player(Player_id,Name,P_number,Age,Team_id) values ('B113','Rohit',987456247,28,'102');
+insert into player(Player_id,Name,P_number,Age,Team_id) values ('C111','Dhoni',754866321,31,'103');
+insert into player(Player_id,Name,P_number,Age,Team_id) values ('A105','Samson',944785321,25,'104');
+insert into player(Player_id,Name,P_number,Age,Team_id) values ('A201','Hardhik',874565321,28,'105');
+insert into player(Player_id,Name,P_number,Age,Team_id) values ('A145','Harshal',985647321,31,'101');
+insert into player(Player_id,Name,P_number,Age,Team_id) values ('A113','Rajat',987458964,24,'101');
+
+update team set captain="A101" where Team_id="101";
+update team set captain="B113" where Team_id="102";
+update team set captain="C111" where Team_id="103";
+update team set captain="A105" where Team_id="104";
+update team set captain="A201" where Team_id="105";
+
+insert into stadium values('S1001','Chinaswamy','Bangalore','HSR',547214);
+insert into stadium values('S1002','Highton','Chennai',select min(Age),Name,Team_name from player group by age;'Rona',547242);
+insert into stadium values('S1003','Narendra','Gujarat','Drona',574584);
+
+
+
+insert into matchh values('MM101','101','102','2022-02-12','10:30:30','S1001','101');
+insert into matchh values('MM102','102','103','2022-02-13','10:00:30','S1002','103');
+insert into matchh values('MM103','103','104','2022-02-14','09:30:30','S1002','104');
+insert into matchh values('MM104','104','105','2022-02-15','10:30:30','S1003','105');
+insert into matchh values('MM105','101','103','2022-02-16','10:30:30','S1001','101');
+
+insert into mofmatch values('A145','MM101');
+insert into mofmatch values('A145','MM105');
+insert into mofmatch values('C111','MM103');
+
+
+
+
+
+
+
+1.select Name,Team_name,age
+from player p,team t where
+p.Team_id=t.Team_id and Age=(select min(Age) from player);
++-------+-----------+-----+
+| Name  | Team_name | age |
++-------+-----------+-----+
+| Rajat | RCB       |  24 |
++-------+-----------+-----+
+
+2.select * from stadium where Stadium_id=(
+select Stadium_id from matchh group by Stadium_id order by 
+count(Stadium_id) desc limit 1);
++------------+--------------+---------+-----------+---------+
+| Stadium_id | Stadium_name | City    | Area_name | Pincode |
++------------+--------------+---------+-----------+---------+
+| S1003      | Narendra     | Gujarat | Drona     |  574584 |
++------------+--------------+---------+-----------+---------+
+
+3.select * from player where Player_id in(
+select Player_id from mofmatch where
+Player_id not in(
+select Captain from team)
+group by Player_id having count(Player_id)>=2);
++-----------+---------+-----------+-----+---------+
+| Player_id | Name    | P_number  | Age | Team_id |
++-----------+---------+-----------+-----+---------+
+| A145      | Harshal | 985647321 |  31 | 101     |
++-----------+---------+-----------+-----+---------+
+
+
+4.select * from team where Team_id=(select Winnerteam_id from matchh
+group by Winnerteam_id ORDER BY
+count(matchh.Winnerteam_id)desc limit 1);
++---------+-----------+-----------+-------------+---------+
+| Team_id | Team_name | City      | Coach       | Captain |
++---------+-----------+-----------+-------------+---------+
+| 101     | RCB       | Bangalore | RaviShastri | A101    |
++---------+-----------+-----------+-------------+---------+
+
+
+
+
+
+
+select Winnerteam_id from matchh group
+by(Winnerteam_id,Stadium_id);
+
+select Team_name from team where Team_id in (
+select Winnerteam_id from matchh group
+by(Winnerteam_id,Stadium_id)
+having count(*) in (select count(Winnerteam_id)
+from matchh group by Winnerteam_id));
+
+select Team_name from team where Team_id in(select Team_id 
+from matchh where group by(Match_id))
+
+
+select * from team where Team_id=(select Winnerteam_id from
+matchh group by Winnerteam_id having count(Stadium_id)>=2);
