@@ -1,0 +1,43 @@
+create table student1
+(USN varchar(15) primary key,
+Name varchar(20) not null,
+DOB date not null,
+Branch varchar(10) not null,
+Mark1 float(5,2) not null,
+Mark2 float(5,2) not null,
+Mark3 float(5,2) not null,
+Total float(5,2),
+GPA float(5,2));
+
+
+
+
+insert into student1 (USN,Name,DOB,Branch,Mark1,Mark2,Mark3) values ("4VP21MC019","Ronson","2002-02-25","MCA",96,87,88);
+insert into student1 (USN,Name,DOB,Branch,Mark1,Mark2,Mark3) values ("4VP21MC011","Rohan","2002-10-02","MBA",79,45,56);
+insert into student1 (USN,Name,DOB,Branch,Mark1,Mark2,Mark3) values ("4VP21MC013","Karthik","2002-08-28","CS",78,99,74);
+insert into student1 (USN,Name,DOB,Branch,Mark1,Mark2,Mark3) values ("4VP21MC040","Gururaj","2001-08-08","MECH",76,34,74);
+insert into student1 (USN,Name,DOB,Branch,Mark1,Mark2,Mark3) values ("4VP21MC035","Dhananjaya","2000-03-15","MCA",87,57,68);
+insert into student1 (USN,Name,DOB,Branch,Mark1,Mark2,Mark3) values ("4VP21MC031","Akash","2000-03-17","MCA",97,47,98);
+insert into student1 (USN,Name,DOB,Branch,Mark1,Mark2,Mark3) values ("4VP21MC041","Sarchar","2000-03-17","MCA",97,47,98);
+insert into student1 (USN,Name,DOB,Branch,Mark1,Mark2,Mark3) values ("1001","Suresh","2000-08-17","MCA",97,47,98);
+
+1.update student1 set Total=Mark1+Mark2+Mark3;
+
+2.update student1 set GPA=Total/3;
+
+3.select USN,Name from student1 where DOB between '2000-01-01' and '2000-12-31';
+
+4.select * from student1 where Branch="MCA";
+
+5.select Branch,MAX(GPA) from student1 GROUP BY Branch;
+
+6.select * from student1 where Name like 'S%';
+
+7.select * from student1 where Name like '%ar';
+
+8.delete from student1 where USN='1001';
+
+
+
+
+

@@ -1,0 +1,124 @@
+create table branch(
+Branch_id varchar(15) primary key,
+B_name varchar(30) not null,
+HOD varchar(30)not null);
+
+create table student(
+USN varchar(15) primary key,
+Name varchar(20) not null,
+Address varchar(30)not null,
+Branch_id varchar(15)not null,
+Sem varchar(5) not null);
+
+create table author(
+Author_id varchar(15) primary key,
+A_name varchar(20) not null,
+Country varchar(30) not null,
+Age int(3) not null);
+
+create table borrow(
+USN varchar(15),foreign key (USN) references student (USN),
+Book_id varchar(15),foreign key (Book_id) references book (Book_id),
+B_date date);
+
+
+create table book(Book_id varchar(15) primary key,
+Book_name varchar(20) not null,
+Author_id varchar(15) not null,foreign key (Author_id) references author(Author_id),
+Publisher varchar(30) not null,
+Branch_id varchar(15)not null);
+
+insert into branch values('B1','MCA','Dr.Vandana B S');
+insert into branch values('B2','MBA','Dr.Gururaj');
+insert into branch values('B3','CS','Dr.Arun');
+insert into branch values('B4','MECH','Dr.Suresh');
+insert into branch values('B5','CIVIL','Dr.Mahesh');
+
+
+insert into student values('4VP21MC019','Karthik','Uppinangady','B1','1');
+insert into student values('4VP21MC016','Gururaj','Ajeru','B1','1');
+insert into student values('4VP21MC013','Dhananjaya','Kabaka','B2','4');
+insert into student values('4VP21MC011','Akash','Dharmasthala','B5','6');
+insert into student values('4VP21MC009','Chandan','Mangalore','B1','2');
+insert into student values('4VP21MC010','Deekshith','Puttur','B1','2');
+insert into student values('4VP21MC040','Rithesh','Uppinangady','B1','1');
+
+insert into author values('1','BalaGuru','India','60');
+insert into author values('2','John','Japan','45');
+insert into author values('4','Albert','England','54');
+insert into author values('3','Yunus','USA','39');
+insert into author values('5','Deepak kehamani','India','44');
+
+
+insert into book values('BK1','DBMS','1','Pearson','B1');
+insert into book values('BK2','DS','1','Smith','B2');
+insert into book values('BK3','RMI','3','Hill','B4');
+insert into book values('BK4','CN','2','Hill','B3');
+insert into book values('BK5','SQL','4','Pearson','B5');
+insert into book values('BK6','Algorithms','5','Hill','B1');
+
+
+insert into borrow values('4VP21MC019','BK1','2022-01-25');
+insert into borrow values('4VP21MC016','BK4','2022-05-26');
+insert into borrow values('4VP21MC013','BK3','2022-04-01');
+insert into borrow values('4VP21MC040','BK5','2022-01-31');
+insert into borrow values('4VP21MC019','BK1','2022-03-05');
+insert into borrow values('4VP21MC010','BK2','2022-01-28');
+
+
+mysql> select * from student s,branch b where s.Branch_id=b.Branch_id and B_name="MCA" and SEM="2";
++------------+-----------+-----------+-----------+-----+-----------+--------+----------------+
+| USN        | Name      | Address   | Branch_id | Sem | Branch_id | B_name | HOD            |
++------------+-----------+-----------+-----------+-----+-----------+--------+----------------+
+| 4VP21MC009 | Chandan   | Mangalore | B1        | 2   | B1        | MCA    | Dr.Vandana B S |
+| 4VP21MC010 | Deekshith | Puttur    | B1        | 2   | B1        | MCA    | Dr.Vandana B S |
++------------+-----------+-----------+-----------+-----+-----------+--------+----------------+
+
+
+mysql> select Name  from student where USN in(select USN from borrow);
++------------+
+| Name       |
++------------+
+| Deekshith  |
+| Dhananjaya |
+| Gururaj    |
+| Karthik    |
+| Rithesh    |
++------------+
+
+
+select * from student s,branch b where s.Branch_id=b.Branch_id and B_name="MCA" and SEM="2";
+
+
+
+
+ook.Author_id,A_name,count(*) as total from book,author where author.author_id=book.author_id
+
+ group by book.Author_id;
+ select book.Author_id,A_name,count(*) as total from book,author where author.author_id=book.author_id group by book.Author_id;
+ 
+ 
+ 
+ select student.USN,branch.B_name,student.Name,book.Book_name,author.A_name,borrow.B_date
+ from student,branch,book,author,borrow
+ where student.USN=borrow.USN
+ and student.Branch_id=branch.Branch_id
+ and borrow.book_id=book.book_id
+ and book.Author_id=author.Author_id 
+ and branch.B_name="MCA" and student.SEM="2"
+
+
+
+
+7i.select * from student s where
+exists 
+(select br.USN from borrow br,book bk 
+where br.Book_id=bk.Book_id and br.USN=s.USN
+group by USN
+having count(distinct Author_id)>1);
+
+ 
+ 
+ 
+
+
