@@ -1,0 +1,89 @@
+create table T_place(TP_id varchar(10) primary key,
+TP_name varchar(30) not null,
+State char(25) not null,
+History varchar(30),
+Kilometer int(3));
+
+create table Tourist(T_id varchar(10) primary key,
+T_name varchar(30) not null,
+Age int(3) not null,
+Country varchar(30));
+
+create table Emaill(T_id varchar(10),foreign key(T_id) references Tourist(T_id),
+Email_id varchar(30) not null,
+primary key(T_id,Email_id));
+
+create table visits(T_id varchar(10),foreign key(T_id) references Tourist(T_id),
+TP_id varchar(10),foreign key(TP_id) references T_place(TP_id),
+Vdate date,
+primary key(TP_id,T_id));
+
+insert into T_place values('T101','Madikeri','Karnataka','Heaven','180');
+insert into T_place values('T102','Ooty','Kerala','Heaven','200');
+insert into T_place values('T103','Thanirubavi','Karnataka','sea','400');
+insert into T_place values('T104','','GoldenTemple','Rajasthan','110');
+insert into T_place values('T105','jog falls','TamilNadu','Falls','300');
+
+insert into Tourist values('P101','Karthik',20,'India');
+insert into Tourist values('P102','Guru',27,'India');
+insert into Tourist values('P103','Deekshith',30,'USA');
+insert into Tourist values('P104','Dhanu',28,'Srilanka');
+
+
+insert into Emaill values('P101','kathik555@gmail.com');
+insert into Emaill values('P102','Guru@gmail.com');
+insert into Emaill values('P103','Deechu@gmail.com');
+insert into Emaill values('P104','Dhanu@gmail.com');
+insert into Emaill values('P101','kathik@gmail.com');
+
+insert into visits values('P101','T101','2022-02-28');
+insert into visits values('P102','T101','2022-02-28');
+insert into visits values('P101','T102','2022-03-28');
+insert into visits values('P101','T103','2022-10-28');
+insert into visits values('P103','T104','2022-09-28');
+insert into visits values('P103','T101','2022-09-28');
+insert into visits values('P104','T101','2022-09-28');
+
+insert into visits values(&T_id,&TP_id,'&Vdate');
+
+
+1.select State ,count(TP_id) as places from T_place 
+group by State 
+order by count(TP_id) 
+desc limit 1;
++-----------+--------+
+| State     | places |
++-----------+--------+
+| Karnataka |      2 |
++-----------+--------+
+
+
+2.select tp.TP_id,tp.TP_name,tp.State,Count(v.T_id) from T_place tp,visits v where
+v.TP_id=tp.TP_id group by v.TP_id order by count(v.TP_id)desc limit 1;
++-------+----------+-----------+---------------+
+| TP_id | TP_name  | State     | Count(v.T_id) |
++-------+----------+-----------+---------------+
+| T101  | Madikeri | Karnataka |             2 |
++-------+----------+-----------+---------------+
+
+3.select * from Tourist 
+where T_id in(select T_id from visits,T_place where
+visits.TP_id=T_place.TP_id and State='Karnataka');
++------+---------+-----+---------+
+| T_id | T_name  | Age | Country |
++------+---------+-----+---------+
+| P101 | Karthik |  20 | India   |
+| P102 | Guru    |  27 | India   |
++------+---------+-----+---------+
+
+4.
+select * from Tourist where T_id in(select T_id from visits,
+T_place where visits.TP_id=T_place.TP_id
+group by T_id having count(distinct State)
+in(select count(distinct State)from T_place)); 
+
+5.select * from T_place where TP_id in(
+select TP_id from visits,Tourist where visits.T_id=Tourist.T_id group by 
+TP_id having
+count(distinct country)=(select count(distinct country)from Tourist)); 
+
