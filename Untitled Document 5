@@ -1,0 +1,117 @@
+create table Constituency(Cont_id varchar(20) primary key,
+Name char(25) not null,
+State char(25) not null,
+No_of_voters int(5) not null);
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| Cont_id      | varchar(20) | NO   | PRI | NULL    |       |
+| Name         | char(25)    | NO   |     | NULL    |       |
+| State        | char(25)    | NO   |     | NULL    |       |
+| No_of_voters | int         | NO   |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+
+
+create table Candidate(Cand_id varchar(20) primary key,
+Name char(25) not null,
+Phone int(10),
+Age int(3),
+State varchar(25),
+Pid varchar(20),foreign key(Pid) references Party(Pid));
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| Cand_id | varchar(20) | NO   | PRI | NULL    |       |
+| Name    | char(25)    | NO   |     | NULL    |       |
+| Phone   | int         | YES  |     | NULL    |       |
+| Age     | int         | YES  |     | NULL    |       |
+| State   | varchar(25) | YES  |     | NULL    |       |
+| Pid     | varchar(20) | YES  | MUL | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+
+
+create table Party(Pid varchar(20) primary key,
+Pname varchar(25) not null,
+Symbol varchar(10) not null);
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| Pid    | varchar(20) | NO   | PRI | NULL    |       |
+| Pname  | varchar(25) | NO   |     | NULL    |       |
+| Symbol | varchar(10) | NO   |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+
+
+create table Voter(
+Vid varchar(15),
+Vname char(25),
+Age int(3),
+Houseno varchar(10),
+City varchar(15),
+State varchar(25),
+Pincode int(6),
+Cont_id varchar(20),foreign key(Cont_id) references Constituency(Cont_id),
+Cand_id varchar(20),foreign key(Cand_id) references Candidate(Cand_id));
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| Vid     | varchar(15) | YES  |     | NULL    |       |
+| Vname   | char(25)    | YES  |     | NULL    |       |
+| Age     | int         | YES  |     | NULL    |       |
+| Houseno | varchar(10) | YES  |     | NULL    |       |
+| City    | varchar(15) | YES  |     | NULL    |       |
+| State   | varchar(25) | YES  |     | NULL    |       |
+| Pincode | int         | YES  |     | NULL    |       |
+| Cont_id | varchar(20) | YES  | MUL | NULL    |       |
+| Cand_id | varchar(20) | YES  | MUL | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+
+
+create table Contest(
+Cont_id varchar(20),foreign key(Cont_id) references Constituency(Cont_id),
+Cand_id varchar(20),foreign key(Cand_id) references Candidate(Cand_id),
+primary key(Cont_id,Cand_id));
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| Cont_id | varchar(20) | NO   | PRI | NULL    |       |
+| Cand_id | varchar(20) | NO   | PRI | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+
+
+insert into Constituency values('101','Belgaum','Karnataka',2000);
+insert into Constituency values('102','Chikkodi','Karnataka',1000);
+insert into Constituency values('103','Bijapur','Karnataka',5000);
+insert into Constituency values('104','UttarKannada','Karnataka',1700);
+insert into Constituency values('105','Srikulam','Andrapradesh',7800);
+insert into Constituency values('106','Varnakulam','Andrapradesh',1000);
+
+
+
+insert into Party values('P101','BJP','Lotus');
+insert into Party values('P102','BSP','Elephant');
+insert into Party values('P103','Congress','Hand');
+insert into Party values('P104','NCP','Clock');
+insert into Party values('P105','CPI','Hammer');
+
+
+insert into Candidate values('C101','Karthik',987899879,30,'Karnataka','P101');
+insert into Candidate values('C102','Gururaj',457899879,20,'Andrapradesh','P102');
+insert into Candidate values('C103','Deekshith',777899879,40,'Karnataka','P103');
+insert into Candidate values('C104','Dhanu',987899812,33,'Karnataka','P104');
+insert into Candidate values('C105','Akash',987899784,28,'Andrapradesh','P105');
+
+insert into Voter values('V101','Chandan',58, 'H111','Puttur','Karnataka',574542,'101','C101');
+insert into Voter values('V102','Deepak',74, 'H112','Mangalore','Karnataka',574577,'102','C102');
+insert into Voter values('V103','Dennis',27, 'H113','Drona','Andrapradesh',574578,'105','C103');
+insert into Voter values('V104','Rithesh',36, 'H114','Vitla','Karnataka',574579,'103','C104');
+insert into Voter values('V105','Mokshith',45, 'H115','Majiru','Andrapradesh',789458,'106','C105');
+insert into Voter values('V106','Jaifin',23, 'H116','Puttur','Karnataka',574542,'101','C101');
+
+insert into Contest values('101','C101');
+insert into Contest values('103','C102');
+insert into Contest values('104','C103');
+insert into Contest values('105','C104');
+insert into Contest values('106','C105');
+
+
