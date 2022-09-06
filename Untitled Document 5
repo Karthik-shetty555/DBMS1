@@ -57,7 +57,7 @@ Cand_id varchar(20),foreign key(Cand_id) references Candidate(Cand_id));
 +---------+-------------+------+-----+---------+-------+
 | Vid     | varchar(15) | YES  |     | NULL    |       |
 | Vname   | char(25)    | YES  |     | NULL    |       |
-| Age     | int         | YES  |     | NULL    |       |
+| Age     | int         | Cand_id varchar(20)YES  |     | NULL    |       |
 | Houseno | varchar(10) | YES  |     | NULL    |       |
 | City    | varchar(15) | YES  |     | NULL    |       |
 | State   | varchar(25) | YES  |     | NULL    |       |
@@ -113,5 +113,75 @@ insert into Contest values('103','C102');
 insert into Contest values('104','C103');
 insert into Contest values('105','C104');
 insert into Contest values('106','C105');
+insert into Contest values('105','C101');
+insert into Contest values('106','C101');
 
+1.
+select * from Candidate
+where Cand_id in(
+select Cand_id from Contest
+join Constituency on Contest.Cont_id=Constituency.Cont_id
+group by Cand_id 
+having count(distinct(State))>1);
++---------+---------+-----------+------+--------------+------+
+| Cand_id | Name    | Phone     | Age  | State        | Pid  |
++---------+---------+-----------+------+--------------+------+
+| C101    | Karthik | 987899879 |   30 | Karnataka    | P101 |
+| C105    | Akash   | 987899784 |   28 | Andrapradesh | P105 |
++---------+---------+-----------+------+--------------+------+
+
+
+2.
+select State,count(Cont_id) from Constituency
+group by State 
+order by count(Cont_id)
+desc limit 1;
++-----------+----------------+
+| State     | count(Cont_id) |
++-----------+----------------+
+| Karnataka |              4 |
++-----------+----------------+
+
+3.
+Create a file named abc.sql or directly write it in the terminal
+
+DELIMITER //
+create procedure abc(IN Vid varchar(15),IN Vname char(25),
+IN Age int(3),
+IN Houseno varchar(10),
+IN City varchar(15),
+IN State varchar(25),
+IN Pincode int(6),
+IN Cont_id varchar(20),
+IN Cand_id varchar(20))
+begin
+declare msg varchar(20);
+if Age>=18 then
+insert into Voter(Vid,Vname,Age,Houseno,City,State,Pincode,Cont_id,Cand_id)
+values(Vid,Vname,Age,Houseno,City,State,Pincode,Cont_id,Cand_id);
+set msg="row inserted";
+else
+set msg="voter not eligible";
+end if;
+select msg;
+end//
+
+DELIMITER ;
+
+
+Then type:: source abc.sql           //in terminal then call it
+
+call abc('107','Roshan',22,'H201','Uppinangady','Karnataka',574214,'101','C101');
++--------------+
+| msg          |
++--------------+
+| row inserted |
++--------------+
+
+call abc('107','Roshan',17,'H201','Uppinangady','Karnataka',574214,'101','C101');
++--------------------+
+| msg                |
++--------------------+
+| voter not eligible |
++--------------------+
 
