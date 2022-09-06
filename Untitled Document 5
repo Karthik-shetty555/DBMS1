@@ -85,6 +85,17 @@ insert into Constituency values('103','Bijapur','Karnataka',5000);
 insert into Constituency values('104','UttarKannada','Karnataka',1700);
 insert into Constituency values('105','Srikulam','Andrapradesh',7800);
 insert into Constituency values('106','Varnakulam','Andrapradesh',1000);
++---------+--------------+--------------+--------------+
+| Cont_id | Name         | State        | No_of_voters |
++---------+--------------+--------------+--------------+
+| 101     | Belgaum      | Karnataka    |         2000 |
+| 102     | Chikkodi     | Karnataka    |         1000 |
+| 103     | Bijapur      | Karnataka    |         5000 |
+| 104     | UttarKannada | Karnataka    |         1700 |
+| 105     | Srikulam     | Andrapradesh |         7800 |
+| 106     | Varnakulam   | Andrapradesh |         1000 |
++---------+--------------+--------------+--------------+
+
 
 
 
@@ -93,6 +104,16 @@ insert into Party values('P102','BSP','Elephant');
 insert into Party values('P103','Congress','Hand');
 insert into Party values('P104','NCP','Clock');
 insert into Party values('P105','CPI','Hammer');
++------+----------+----------+
+| Pid  | Pname    | Symbol   |
++------+----------+----------+
+| P101 | BJP      | Lotus    |
+| P102 | BSP      | Elephant |
+| P103 | Congress | Hand     |
+| P104 | NCP      | Clock    |
+| P105 | CPI      | Hammer   |
++------+----------+----------+
+
 
 
 insert into Candidate values('C101','Karthik',987899879,30,'Karnataka','P101');
@@ -100,6 +121,16 @@ insert into Candidate values('C102','Gururaj',457899879,20,'Andrapradesh','P102'
 insert into Candidate values('C103','Deekshith',777899879,40,'Karnataka','P103');
 insert into Candidate values('C104','Dhanu',987899812,33,'Karnataka','P104');
 insert into Candidate values('C105','Akash',987899784,28,'Andrapradesh','P105');
++---------+-----------+-----------+------+--------------+------+
+| Cand_id | Name      | Phone     | Age  | State        | Pid  |
++---------+-----------+-----------+------+--------------+------+
+| C101    | Karthik   | 987899879 |   30 | Karnataka    | P101 |
+| C102    | Gururaj   | 457899879 |   20 | Andrapradesh | P102 |
+| C103    | Deekshith | 777899879 |   40 | Karnataka    | P103 |
+| C104    | Dhanu     | 987899812 |   33 | Karnataka    | P104 |
+| C105    | Akash     | 987899784 |   28 | Andrapradesh | P105 |
++---------+-----------+-----------+------+--------------+------+
+
 
 insert into Voter values('V101','Chandan',58, 'H111','Puttur','Karnataka',574542,'101','C101');
 insert into Voter values('V102','Deepak',74, 'H112','Mangalore','Karnataka',574577,'102','C102');
@@ -107,6 +138,18 @@ insert into Voter values('V103','Dennis',27, 'H113','Drona','Andrapradesh',57457
 insert into Voter values('V104','Rithesh',36, 'H114','Vitla','Karnataka',574579,'103','C104');
 insert into Voter values('V105','Mokshith',45, 'H115','Majiru','Andrapradesh',789458,'106','C105');
 insert into Voter values('V106','Jaifin',23, 'H116','Puttur','Karnataka',574542,'101','C101');
++------+----------+------+---------+-------------+--------------+---------+---------+---------+
+| Vid  | Vname    | Age  | Houseno | City        | State        | Pincode | Cont_id | Cand_id |
++------+----------+------+---------+-------------+--------------+---------+---------+---------+
+| V101 | Chandan  |   58 | H111    | Puttur      | Karnataka    |  574542 | 101     | C101    |
+| V102 | Deepak   |   74 | H112    | Mangalore   | Karnataka    |  574577 | 102     | C102    |
+| V103 | Dennis   |   27 | H113    | Drona       | Andrapradesh |  574578 | 105     | C103    |
+| V104 | Rithesh  |   36 | H114    | Vitla       | Karnataka    |  574579 | 103     | C104    |
+| V105 | Mokshith |   45 | H115    | Majiru      | Andrapradesh |  789458 | 106     | C105    |
+| V106 | Jaifin   |   23 | H116    | Puttur      | Karnataka    |  574542 | 101     | C101    |
+| 107  | Roshan   |   22 | H201    | Uppinangady | Karnataka    |  574214 | 101     | C101    |
++------+----------+------+---------+-------------+--------------+---------+---------+---------+
+
 
 insert into Contest values('101','C101');
 insert into Contest values('103','C102');
@@ -115,6 +158,21 @@ insert into Contest values('105','C104');
 insert into Contest values('106','C105');
 insert into Contest values('105','C101');
 insert into Contest values('106','C101');
++---------+---------+
+| Cont_id | Cand_id |
++---------+---------+
+| 101     | C101    |
+| 103     | C101    |
+| 104     | C101    |
+| 105     | C101    |
+| 106     | C101    |
+| 103     | C102    |
+| 104     | C103    |
+| 105     | C104    |
+| 101     | C105    |
+| 106     | C105    |
++---------+---------+
+
 
 1.
 select * from Candidate
