@@ -243,3 +243,56 @@ call abc('107','Roshan',17,'H201','Uppinangady','Karnataka',574214,'101','C101')
 | voter not eligible |
 +--------------------+
 
+4.
+//Write in Terminal
+DELIMITER //
+CREATE PROCEDURE new1(nName char(25))
+begin
+select No_of_voters from Constituency where
+nName=Name;
+end //
+
+call new1('Belgaum');
+
++--------------+
+| No_of_voters |
++--------------+
+|         2003 |
++--------------+
+
+5.
+//Write in Terminal
+DELIMITER $$
+create trigger new1
+after insert on Voter
+for each row 
+begin
+UPDATE Constituency set 
+Constituency.No_of_voters=Constituency.No_of_voters+3
+where Cont_id=new.Cont_id;
+end$$
+
+select * from Voter;
+$$
+
+select * from Constituency;
+$$
+
+insert into Voter values('V110','Chandan',58, 'H111','Puttur','Karnataka',574542,'101','C101');
+$$
+
+select * from Constituency;
+$$
++---------+--------------+--------------+--------------+
+| Cont_id | Name         | State        | No_of_voters |
++---------+--------------+--------------+--------------+
+| 101     | Belgaum      | Karnataka    |         2003 |
+| 102     | Chikkodi     | Karnataka    |         1000 |
+| 103     | Bijapur      | Karnataka    |         5000 |
+| 104     | UttarKannada | Karnataka    |         1700 |
+| 105     | Srikulam     | Andrapradesh |         7800 |
+| 106     | Varnakulam   | Andrapradesh |         1000 |
++---------+--------------+--------------+--------------+
+
+if needed:    drop trigger new1;
+
